@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
+
   <title>Security Verification</title>
 
   <style>
@@ -13,11 +14,11 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
       padding: 20px;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       font-family: Arial, Helvetica, sans-serif;
       background: linear-gradient(
         135deg, #f8fafc, #e8eef7
@@ -25,156 +26,133 @@
       color: #1e293b;
     }
 
-    .verification-card {
+    .card {
       width: 100%;
       max-width: 420px;
-      padding: 34px 28px;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: #fff;
+      padding: 32px 26px;
       border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.07);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 12px 35px rgba(0,0,0,.07);
       text-align: center;
     }
 
     .shield {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      background: #eff6ff;
-      display: grid;
-      place-items: center;
-      font-size: 28px;
+      font-size: 35px;
+      margin-bottom: 15px;
     }
 
     h1 {
-      margin: 0 0 10px;
       font-size: 24px;
-      font-weight: 700;
+      margin: 0 0 10px;
     }
 
     .description {
-      margin: 0 0 28px;
       font-size: 14px;
-      line-height: 1.7;
+      line-height: 1.6;
       color: #64748b;
+      margin-bottom: 25px;
     }
 
-    .captcha-box {
+    .verification-box {
       display: flex;
       align-items: center;
-      gap: 14px;
-      width: 100%;
-      padding: 18px;
-      background: #fafcff;
+      gap: 12px;
+      padding: 16px;
       border: 1px solid #cbd5e1;
       border-radius: 10px;
+      background: #f8fafc;
       cursor: pointer;
       text-align: left;
-      transition: .2s;
     }
 
-    .captcha-box:hover {
-      border-color: #2563eb;
-    }
-
-    .captcha-box:focus-within {
-      outline: 3px solid #bfdbfe;
-    }
-
-    .captcha-checkbox {
-      width: 23px;
-      height: 23px;
-      margin: 0;
+    .verification-box input {
+      width: 22px;
+      height: 22px;
       accent-color: #16a34a;
-      cursor: pointer;
-      flex-shrink: 0;
     }
 
-    .captcha-label {
+    .verification-box span {
       font-size: 15px;
       font-weight: 500;
     }
 
-    .captcha-icon {
-      margin-left: auto;
-      font-size: 22px;
+    .captcha-code {
+      margin: 20px 0 12px;
+      padding: 16px;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      background: #eff6ff;
+      border: 1px dashed #93c5fd;
+      border-radius: 10px;
+      user-select: none;
     }
 
-    .status {
-      min-height: 20px;
-      margin: 16px 0;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .status.success {
-      color: #15803d;
-    }
-
-    .status.error {
-      color: #dc2626;
-    }
-
-    .continue-btn {
+    .captcha-input {
       width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+    }
+
+    .captcha-input:focus {
+      border-color: #2563eb;
+    }
+
+    .button {
+      width: 100%;
+      margin-top: 18px;
       padding: 15px;
-      border: 0;
+      border: none;
       border-radius: 9px;
       background: #2563eb;
-      color: #ffffff;
+      color: white;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: .2s;
     }
 
-    .continue-btn:hover:not(:disabled) {
+    .button:hover:not(:disabled) {
       background: #1d4ed8;
     }
 
-    .continue-btn:disabled {
+    .button:disabled {
       background: #94a3b8;
       cursor: not-allowed;
     }
 
+    .status {
+      min-height: 20px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
     .footer {
       margin-top: 24px;
-      font-size: 12px;
       color: #94a3b8;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      border: 2px solid #cbd5e1;
-      border-top-color: #2563eb;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
 
-  <main class="verification-card">
+  <main class="card">
 
-    <div class="shield" aria-hidden="true">🛡️</div>
+    <div class="shield" aria-hidden="true">
+      🛡️
+    </div>
 
     <h1>Security Verification</h1>
 
     <p class="description">
-      Please confirm that you are human
-      before continuing.
-      This quick security check helps
-      protect your information.
+      Please complete this quick security
+      check to continue safely.
     </p>
 
     <form
@@ -183,54 +161,45 @@
       action="{{ url_for('captcha') }}"
     >
 
-      <!-- Preserve existing web parameter -->
       <input
         type="hidden"
         name="web"
         value="{{ request.args.get('web', '') }}"
       >
 
-      <!-- Preserve original field name -->
-      <input
-        type="hidden"
-        name="code"
-        id="captcha-code"
-        value=""
-      >
-
-      <label class="captcha-box">
-
+      <label class="verification-box">
         <input
           type="checkbox"
           id="human-check"
-          class="captcha-checkbox"
-          aria-describedby="captcha-status"
+          required
         >
-
-        <span class="captcha-label">
-          I'm not a robot
-        </span>
-
-        <span
-          class="captcha-icon"
-          aria-hidden="true"
-        >🛡️</span>
-
+        <span>I'm not a robot</span>
       </label>
 
-      <div
-        id="captcha-status"
-        class="status"
-        role="status"
-        aria-live="polite"
-      >
-        Complete the verification above.
+      <div class="captcha-code">
+        {{ code }}
       </div>
 
+      <input
+        class="captcha-input"
+        id="captcha-input"
+        type="text"
+        name="code"
+        placeholder="Enter the security code"
+        autocomplete="off"
+        spellcheck="false"
+        required
+      >
+
+      <p class="status" id="status"
+         role="status" aria-live="polite">
+        Select the checkbox and enter the code.
+      </p>
+
       <button
+        class="button"
         type="submit"
-        id="continue-btn"
-        class="continue-btn"
+        id="submit-btn"
         disabled
       >
         Continue Securely
@@ -239,7 +208,7 @@
     </form>
 
     <div class="footer">
-      Protected by Security Verification
+      Secure Verification
     </div>
 
   </main>
@@ -248,64 +217,46 @@
     const checkbox =
       document.getElementById("human-check");
 
+    const input =
+      document.getElementById("captcha-input");
+
     const button =
-      document.getElementById("continue-btn");
+      document.getElementById("submit-btn");
 
     const status =
-      document.getElementById("captcha-status");
+      document.getElementById("status");
 
     const form =
       document.getElementById("captcha-form");
 
-    const code =
-      document.getElementById("captcha-code");
+    function updateButton() {
+      button.disabled = !(
+        checkbox.checked &&
+        input.value.trim().length > 0
+      );
 
-    let timer = null;
+      status.textContent = button.disabled
+        ? "Select the checkbox and enter the code."
+        : "Ready to verify.";
+    }
 
-    checkbox.addEventListener("change", () => {
-      clearTimeout(timer);
+    checkbox.addEventListener(
+      "change", updateButton
+    );
 
-      button.disabled = true;
-      code.value = "";
-      status.className = "status";
+    input.addEventListener(
+      "input", updateButton
+    );
 
-      if (!checkbox.checked) {
-        status.textContent =
-          "Complete the verification above.";
+    form.addEventListener("submit", function(e) {
+      if (!checkbox.checked ||
+          !input.value.trim()) {
+        e.preventDefault();
         return;
       }
 
-      status.innerHTML =
-        '<span class="spinner"></span>' +
-        'Preparing verification...';
-
-      timer = setTimeout(() => {
-        if (!checkbox.checked) return;
-
-        // UI readiness only.
-        // This is NOT a security token.
-        status.textContent =
-          "✓ Checkbox confirmed. Continue to verification.";
-        status.className = "status success";
-
-        button.disabled = false;
-      }, 450);
-    });
-
-    form.addEventListener("submit", (event) => {
-      if (!checkbox.checked || button.disabled) {
-        event.preventDefault();
-
-        status.textContent =
-          "Please select the checkbox first.";
-        status.className = "status error";
-        return;
-      }
-
-      // The Flask server must validate this request.
-      // Never grant access based only on this checkbox.
       button.disabled = true;
-      button.textContent = "Please wait...";
+      button.textContent = "Verifying...";
     });
   </script>
 
